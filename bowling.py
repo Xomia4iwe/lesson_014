@@ -51,8 +51,9 @@ def get_score(game_result):
                     score += int(frame_result[1])
                 elif frame_result[1] == '/':
                     score += 15
-    return score
+    return print(score)
 
 
-game_result = 'X1/253/X5572811/X'
-print(get_score(game_result))
+
+if __name__ == "__main__":
+    get_score('X1/253/X5572811/X')
