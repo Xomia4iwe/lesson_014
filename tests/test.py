@@ -1,28 +1,37 @@
 # -*- coding: utf-8 -*-
 
-
 import unittest
-from unittest.mock import Mock
-
-from lesson_014.bowling import get_score
-
-_test_data1 = '-/37X1/3415XX629-'
-_test_data2 = 'X1/253/X5572811/X'
+from bowling import Bowling
 
 
-class GetScoreTest(unittest.TestCase):
+class MyBowlingTest(unittest.TestCase):
+
+    def setUp(self):
+        self.gaming_bowling = Bowling()
 
     def test_normal(self):
-        fake_result = Mock()
-        fake_result.text = _test_data1
-        result = get_score(fake_result.text)
-        self.assertEqual(130, result)
+        self.gaming_bowling.get_score('X71-9X7/45-3-65/X')
+        self.assertEqual(self.gaming_bowling.total_score, 125)
 
-    def test_normal_2(self):
-        fake_result = Mock()
-        fake_result.text = _test_data2
-        result = get_score(fake_result.text)
-        self.assertEqual(result, 140)
+    def test_strike(self):
+        self.gaming_bowling.get_score('X')
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('X7XXXXXXXX')
+
+    def test_raise_null_in_game_result(self):
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('XXXXXXX00XX')
+
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('XXXXXXXXXXX')
+
+    def test_raise_first_shot_spare(self):
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('XXXXX/6XXXX')
+
+    def test_raise_incorrect_char(self):
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('Xa/XXXXXXXXX')
 
 
 if __name__ == '__main__':

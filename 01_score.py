@@ -30,14 +30,19 @@
 #   Количество очков для результатов ХХХ - УУУ.
 
 import argparse
-import bowling
+from bowling import Bowling
 
 parser = argparse.ArgumentParser(description="Count the number of points in the bowling game")
-parser.add_argument("-r", "--game_result", help="The result of the bowling game")
+parser.add_argument("--game_result", type=str, help="The result of the bowling game", required=True)
 args = parser.parse_args()
 
-if __name__ == "__main__":
-    bowling.get_score(args.game_result)
+if __name__ == '__main__':
+    try:
+        gaming = Bowling()
+        gaming.get_score(args.game_result)
+        print(f'Количество очков для результатов {args.game_result} - {gaming.total_score}')
+    except Exception as exc:
+        print(exc)
 
 # При написании кода помнить, что заказчик может захотеть доработок и новых возможностей...
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
