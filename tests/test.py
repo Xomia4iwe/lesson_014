@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-
 import unittest
 from bowling import Bowling
 
 
 class MyBowlingTest(unittest.TestCase):
-
     def setUp(self):
         self.gaming_bowling = Bowling()
 
@@ -14,24 +12,28 @@ class MyBowlingTest(unittest.TestCase):
         self.assertEqual(self.gaming_bowling.total_score, 125)
 
     def test_strike(self):
-        self.gaming_bowling.get_score('X')
-        with self.assertRaises(ValueError):
-            self.gaming_bowling.get_score('X7XXXXXXXX')
+        self.gaming_bowling.get_score('XXXXXXXXXX')
+        self.assertEqual(self.gaming_bowling.total_score, 200)
 
-    def test_raise_null_in_game_result(self):
-        with self.assertRaises(ValueError):
-            self.gaming_bowling.get_score('XXXXXXX00XX')
+    def test_spare(self):
+        self.gaming_bowling.get_score('4/4/4/4/4/4/4/4/4/4/')
+        self.assertEqual(self.gaming_bowling.total_score, 150)
 
-        with self.assertRaises(ValueError):
-            self.gaming_bowling.get_score('XXXXXXXXXXX')
+    def test_count(self):
+        self.gaming_bowling.get_score('45454545454545454545')
+        self.assertEqual(self.gaming_bowling.total_score, 90)
 
-    def test_raise_first_shot_spare(self):
-        with self.assertRaises(ValueError):
-            self.gaming_bowling.get_score('XXXXX/6XXXX')
-
-    def test_raise_incorrect_char(self):
+    def test_raise_second_shot_strike(self):
         with self.assertRaises(ValueError):
             self.gaming_bowling.get_score('Xa/XXXXXXXXX')
+
+    def test_raise_less_than_10_frames(self):
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('XXXXXXXX')
+
+    def test_raise_greater_equally_10_points(self):
+        with self.assertRaises(ValueError):
+            self.gaming_bowling.get_score('XXXXXXXXX82')
 
 
 if __name__ == '__main__':
